@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lifeline Nepal — Emergency Supply Portal Login &amp; Registration</title>
+  <meta name="description"
+    content="Secure portal authentication for Kathmandu Valley emergency essential-supplies distribution.">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100vh;
+      max-height: 100vh;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 8%, #0f172a 0%, #020617 100%);
+      color: #f8fafc;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: stretch;
+      padding: 1.25rem 2.5rem;
+      box-sizing: border-box;
+    }
+
+    .auth-gateway-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .auth-gateway-hero {
+      text-align: center;
+      margin-bottom: 1rem;
+      flex-shrink: 0;
+    }
+
+    .auth-flag-badge {
+      display: inline-block;
+      padding: 0.2rem 0.8rem;
+      background: rgba(37, 99, 235, 0.15);
+      border: 1px solid rgba(147, 197, 253, 0.35);
+      border-radius: 9999px;
+      color: #93c5fd;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .auth-portals-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      width: 100%;
+      flex: 1;
+      min-height: 0;
+      align-items: stretch;
+    }
+
+    .auth-portal-card {
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 1.25rem 1.85rem;
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      color: #0f172a;
+      overflow-y: auto;
+    }
+
+    .auth-portal-card.household {
+      border-top: 5px solid #2563eb;
+    }
+
+    .auth-portal-card.coordinator {
+      border-top: 5px solid #dc2626;
+    }
+
+    .auth-portal-header {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      margin-bottom: 0.45rem;
+      flex-shrink: 0;
+    }
+
+    .auth-portal-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .auth-portal-desc {
+      font-size: 0.8rem;
+      color: #475569;
+      line-height: 1.35;
+      margin-bottom: 0.75rem;
+      flex-shrink: 0;
+    }
+
+    .auth-tabs-row {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+      border-bottom: 2px solid #f1f5f9;
+      padding-bottom: 0.45rem;
+      flex-shrink: 0;
+    }
+
+    .auth-tab-btn {
+      flex: 1;
+      padding: 0.45rem 0.65rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      border-radius: 6px;
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      color: #64748b;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .auth-tab-btn.active-hh-login {
+      background: #eff6ff;
+      color: #1d4ed8;
+      border-color: #bfdbfe;
+      font-weight: 700;
+    }
+
+    .auth-tab-btn.active-hh-reg {
+      background: #f0fdf4;
+      color: #15803d;
+      border-color: #bbf7d0;
+      font-weight: 700;
+    }
+
+    .form-group {
+      margin-bottom: 0.65rem;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 0.25rem;
+    }
+
+    .form-input,
+    .form-select {
+      width: 100%;
+      padding: 0.55rem 0.75rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      color: #0f172a;
+      background: #ffffff;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      box-sizing: border-box;
+    }
+
+    .form-input:focus,
+    .form-select:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    .auth-error-alert {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #b91c1c;
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      line-height: 1.35;
+      margin-bottom: 0.75rem;
+    }
+
+    .btn-submit {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.65rem 0.85rem;
+      font-weight: 700;
+      font-size: 0.9rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      margin-top: 0.25rem;
+    }
+
+    .btn-submit.blue {
+      background: #2563eb;
+      color: #ffffff;
+    }
+
+    .btn-submit.blue:hover {
+      background: #1d4ed8;
+    }
+
+    .btn-submit.green {
+      background: #16a34a;
+      color: #ffffff;
+    }
+
+    .btn-submit.green:hover {
+      background: #15803d;
+    }
+
+    .btn-submit.red {
+      background: #dc2626;
+      color: #ffffff;
+    }
+
+    .btn-submit.red:hover {
+      background: #b91c1c;
+    }
+
+    .auth-security-note {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.74rem;
+      color: #64748b;
+      margin-top: auto;
+      padding-top: 0.65rem;
+      border-top: 1px solid #f1f5f9;
+      line-height: 1.35;
+      flex-shrink: 0;
+    }
+
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-grid-3 {
+      display: grid;
+      grid-template-columns: 1.4fr 0.8fr 1.8fr;
+      gap: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+
+    @media (max-width: 900px),
+    (max-height: 600px) {
+
+      html,
+      body {
+        height: auto;
+        max-height: none;
+        overflow-y: auto;
+      }
+
+      body {
+        padding: 1.25rem 1rem;
+      }
+
+      .auth-portals-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .auth-portal-card {
+        height: auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="auth-gateway-container">
+
+    <!-- Hero Branding Header (Compact & Sleek) -->
+    <div class="auth-gateway-hero">
+      <div class="auth-flag-badge">
+        NEPAL EMERGENCY LOGISTICS COMMAND • KATHMANDU VALLEY
+      </div>
+      <h1
+        style="font-size: 1.85rem; font-weight: 800; color: #ffffff; letter-spacing: -0.02em; margin-top: 0.35rem; margin-bottom: 0.15rem;">
+        LIFELINE NEPAL
+      </h1>
+      <h2 style="font-size: 0.92rem; color: #93c5fd; font-weight: 500; margin-top: 0.1rem; margin-bottom: 0.35rem;">
+        आपातकालीन अत्यावश्यक आपूर्ति समन्वय प्रणाली
+      </h2>
+      <p style="max-width: 760px; margin: 0 auto; font-size: 0.82rem; color: #cbd5e1; line-height: 1.4;">
+        Emergency supply coordination platform connecting affected Kathmandu Valley households directly with regional
+        relief distribution depots. Enter your credentials or register a new household below.
+      </p>
+
+      <!-- Active Session Alert Banner (if already signed in) -->
+      <div id="active-session-banner"
+        style="display: none; max-width: 720px; margin: 0.75rem auto 0; background: rgba(30, 41, 59, 0.85); border: 1px solid rgba(147, 197, 253, 0.4); border-radius: 8px; padding: 0.5rem 1rem; color: #f8fafc; font-size: 0.82rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+          <div>
+            <span>Currently logged in as: <strong id="active-user-name" style="color: #60a5fa;"></strong></span>
+            <span id="active-user-role" style="font-size: 0.76rem; color: #94a3b8; margin-left: 0.4rem;"></span>
+          </div>
+          <div style="display: flex; gap: 0.5rem;">
+            <a href="index.html" class="btn btn-primary"
+              style="padding: 0.3rem 0.75rem; font-size: 0.78rem; font-weight: 700; text-decoration: none; border-radius: 4px; background: #2563eb; color: #fff;">
+              Go to Dashboard ➔
+            </a>
+            <button type="button" id="btn-session-signout"
+              style="padding: 0.3rem 0.75rem; font-size: 0.78rem; font-weight: 600; border-radius: 4px; background: rgba(220, 38, 38, 0.2); border: 1px solid rgba(220, 38, 38, 0.5); color: #fca5a5; cursor: pointer;">
+              Switch Account
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dual Portals Grid (Fills full viewport height & width) -->
+    <div class="auth-portals-grid">
+
+      <!-- Entry Point 1: Household Citizen Portal -->
+      <div class="auth-portal-card household">
+
+        <div class="auth-portal-header">
+          <div class="auth-portal-icon" style="background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+          </div>
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: #0f172a; margin: 0;">Household Portal</h3>
+            <span class="auth-sub" style="font-size: 0.74rem; color: #64748b; font-weight: 600;">नागरिक सहायता पोर्टल
+              (Civilian Intake Desk)</span>
+          </div>
+        </div>
+
+        <p class="auth-portal-desc">
+          For affected families in Kathmandu, Lalitpur, or Bhaktapur to request emergency food, water, and medical
+          rations, and track live dispatches.
+        </p>
+
+        <!-- Mode Switcher Tabs -->
+        <div class="auth-tabs-row">
+          <button type="button" class="auth-tab-btn active-hh-login" id="tab-btn-hh-login">
+            Citizen Sign In
+          </button>
+          <button type="button" class="auth-tab-btn" id="tab-btn-hh-reg">
+            Register New Household
+          </button>
+        </div>
+
+        <!-- Tab 1: Household Sign In Form -->
+        <div id="hh-login-panel">
+          <div class="form-group">
+            <label class="form-label" for="hh-login-id">
+              Registered Phone Number or Household ID
+            </label>
+            <input type="text" id="hh-login-id" class="form-input" placeholder="e.g. 9841-555101 or HH-KMC-01"
+              autocomplete="username">
+          </div>
+
+          <div class="form-group" style="margin-bottom: 0.85rem;">
+            <label class="form-label" for="hh-login-pin">
+              4-Digit Security PIN
+            </label>
+            <input type="password" id="hh-login-pin" class="form-input" placeholder="••••" maxlength="4"
+              autocomplete="current-password" style="font-size: 1.15rem; letter-spacing: 0.25em;">
+          </div>
+
+          <div id="hh-login-error" class="auth-error-alert" style="display: none;"></div>
+
+          <button type="button" id="btn-hh-login" class="btn-submit blue">
+            Verify &amp; Log In to Household Portal ➔
+          </button>
+        </div>
+
+        <!-- Tab 2: Household Registration Form (Compact Full-Width Grid) -->
+        <div id="hh-reg-panel" style="display: none;">
+          <div class="form-grid-2">
+            <div class="form-group" style="margin: 0;">
+              <label class="form-label" for="hh-reg-name">
+                Full Name / Head <span style="color: #dc2626;">*</span>
+              </label>
+              <input type="text" id="hh-reg-name" class="form-input" placeholder="e.g. Ramesh Adhikari">
+            </div>
+
+            <div class="form-group" style="margin: 0;">
+              <label class="form-label" for="hh-reg-phone">
+                Contact Phone <span style="color: #dc2626;">*</span>
+              </label>
+              <input type="tel" id="hh-reg-phone" class="form-input" placeholder="e.g. 9841-123456">
+            </div>
+          </div>
+
+          <div class="form-grid-3">
+            <div class="form-group" style="margin: 0;">
+              <label class="form-label" for="hh-reg-muni">
+                Municipality <span style="color: #dc2626;">*</span>
+              </label>
+              <select id="hh-reg-muni" class="form-select">
+                <option value="Kathmandu Metropolitan City">Kathmandu Metro</option>
+                <option value="Lalitpur Metropolitan City">Lalitpur Metro</option>
+                <option value="Bhaktapur Municipality">Bhaktapur Muni</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin: 0;">
+              <label class="form-label" for="hh-reg-ward">
+                Ward # <span style="color: #dc2626;">*</span>
+              </label>
+              <input type="number" id="hh-reg-ward" class="form-input" placeholder="Ward" min="1" max="32" value="3">
+            </div>
+            <div class="form-group" style="margin: 0;">
+              <label class="form-label" for="hh-reg-locality">
+                Locality / Landmark
+              </label>
+              <input type="text" id="hh-reg-locality" class="form-input" placeholder="e.g. Maharajgunj">
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 0.85rem;">
+            <label class="form-label" for="hh-reg-pin">
+              Create 4-Digit Security PIN <span style="color: #dc2626;">*</span>
+            </label>
+            <input type="password" id="hh-reg-pin" class="form-input" placeholder="••••" maxlength="4"
+              autocomplete="new-password" style="font-size: 1.15rem; letter-spacing: 0.25em;">
+          </div>
+
+          <div id="hh-reg-error" class="auth-error-alert" style="display: none;"></div>
+
+          <button type="button" id="btn-hh-register" class="btn-submit green">
+            Register Account &amp; Access Dashboard ➔
+          </button>
+        </div>
+
+        <div class="auth-security-note">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          Protected intake. Your household request data remains strictly private.
+        </div>
+      </div>
+
+      <!-- Entry Point 2: Relief Coordinator Command -->
+      <div class="auth-portal-card coordinator">
+
+        <div class="auth-portal-header">
+          <div class="auth-portal-icon" style="background: #fef2f2; color: #dc2626; border: 1px solid #fecaca;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="8" y1="12" x2="16" y2="12"></line>
+            </svg>
+          </div>
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 700; color: #0f172a; margin: 0;">Relief Coordinator Portal</h3>
+            <span class="auth-sub" style="font-size: 0.74rem; color: #64748b; font-weight: 600;">राहत समन्वय कमान्ड
+              (Operations Command)</span>
+          </div>
+        </div>
+
+        <p class="auth-portal-desc">
+          Operational command centre for triage oversight, warehouse stockpile allocation, Dijkstra route optimization,
+          and convoy dispatches.
+        </p>
+
+        <div class="form-group">
+          <label class="form-label" for="coord-login-id">
+            Coordinator Officer Service ID
+          </label>
+          <input type="text" id="coord-login-id" class="form-input" placeholder="e.g. COORD-KMC" autocomplete="username"
+            style="font-family: monospace;">
+        </div>
+
+        <div class="form-group" style="margin-bottom: 0.85rem;">
+          <label class="form-label" for="coord-login-pin">
+            4-Digit Security Service PIN
+          </label>
+          <input type="password" id="coord-login-pin" class="form-input" placeholder="••••" maxlength="4"
+            autocomplete="current-password" style="font-size: 1.15rem; letter-spacing: 0.25em;">
+        </div>
+
+        <div id="coord-login-error" class="auth-error-alert" style="display: none;"></div>
+
+        <button type="button" id="btn-coord-login" class="btn-submit red">
+          Authorize Command Access ➔
+        </button>
+
+        <div class="auth-security-note">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          Restricted access. All allocations, dispatches, and inventory shifts are audit-logged.
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Dependencies -->
+  <script src="js/data.js"></script>
+  <script>
+    (function () {
+      // Check if user is already logged in
+      var activeUser = LifelineData.getCurrentAuthUser();
+      var sessionBanner = document.getElementById('active-session-banner');
+      var sessionUserName = document.getElementById('active-user-name');
+      var sessionUserRole = document.getElementById('active-user-role');
+      var btnSessionSignout = document.getElementById('btn-session-signout');
+
+      if (activeUser && sessionBanner) {
+        sessionBanner.style.display = 'block';
+        if (sessionUserName) sessionUserName.textContent = activeUser.name;
+        if (sessionUserRole) {
+          sessionUserRole.textContent = activeUser.role === 'household'
+            ? 'Household Portal • ' + activeUser.municipality + ' (Ward ' + activeUser.ward + ')'
+            : 'Coordinator Portal • ' + (activeUser.title || 'Relief Command');
+        }
+      }
+
+      if (btnSessionSignout) {
+        btnSessionSignout.addEventListener('click', function () {
+          LifelineData.clearAuthUser();
+          if (sessionBanner) sessionBanner.style.display = 'none';
+        });
+      }
+
+      // Household Tab Switcher
+      var tabHhLogin = document.getElementById('tab-btn-hh-login');
+      var tabHhReg = document.getElementById('tab-btn-hh-reg');
+      var panelHhLogin = document.getElementById('hh-login-panel');
+      var panelHhReg = document.getElementById('hh-reg-panel');
+
+      if (tabHhLogin && tabHhReg && panelHhLogin && panelHhReg) {
+        tabHhLogin.addEventListener('click', function () {
+          tabHhLogin.className = 'auth-tab-btn active-hh-login';
+          tabHhReg.className = 'auth-tab-btn';
+          panelHhLogin.style.display = 'block';
+          panelHhReg.style.display = 'none';
+        });
+
+        tabHhReg.addEventListener('click', function () {
+          tabHhReg.className = 'auth-tab-btn active-hh-reg';
+          tabHhLogin.className = 'auth-tab-btn';
+          panelHhReg.style.display = 'block';
+          panelHhLogin.style.display = 'none';
+        });
+      }
+
+      function showErr(el, msg) {
+        if (!el) return;
+        el.textContent = msg;
+        el.style.display = 'block';
+      }
+
+      // Household Login
+      var btnHhLogin = document.getElementById('btn-hh-login');
+      var hhLoginIdInput = document.getElementById('hh-login-id');
+      var hhLoginPinInput = document.getElementById('hh-login-pin');
+      var hhLoginError = document.getElementById('hh-login-error');
+
+      function doHhLogin() {
+        if (hhLoginError) hhLoginError.style.display = 'none';
+        var id = hhLoginIdInput ? hhLoginIdInput.value.trim() : '';
+        var pin = hhLoginPinInput ? hhLoginPinInput.value.trim() : '';
+
+        if (!id) {
+          showErr(hhLoginError, 'Please enter your registered phone number or Household ID.');
+          if (hhLoginIdInput) hhLoginIdInput.focus();
+          return;
+        }
+        if (!pin || pin.length < 4) {
+          showErr(hhLoginError, 'Please enter your 4-digit security PIN.');
+          if (hhLoginPinInput) hhLoginPinInput.focus();
+          return;
+        }
+
+        var res = LifelineData.authenticate(id, pin);
+        if (!res.success) {
+          showErr(hhLoginError, res.error);
+          return;
+        }
+
+        // Successfully authenticated -> Redirect to Dashboard
+        window.location.href = 'index.html';
+      }
+
+      if (btnHhLogin) btnHhLogin.addEventListener('click', doHhLogin);
+      if (hhLoginIdInput) {
+        hhLoginIdInput.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') {
+            if (hhLoginPinInput && !hhLoginPinInput.value) hhLoginPinInput.focus();
+            else doHhLogin();
+          }
+        });
+      }
+      if (hhLoginPinInput) {
+        hhLoginPinInput.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') doHhLogin();
+        });
+      }
+
+      // Household Registration
+      var btnHhReg = document.getElementById('btn-hh-register');
+      var hhRegError = document.getElementById('hh-reg-error');
+
+      function doHhRegister() {
+        if (hhRegError) hhRegError.style.display = 'none';
+        var name = document.getElementById('hh-reg-name') ? document.getElementById('hh-reg-name').value.trim() : '';
+        var phone = document.getElementById('hh-reg-phone') ? document.getElementById('hh-reg-phone').value.trim() : '';
+        var muni = document.getElementById('hh-reg-muni') ? document.getElementById('hh-reg-muni').value : '';
+        var ward = document.getElementById('hh-reg-ward') ? document.getElementById('hh-reg-ward').value.trim() : '';
+        var locality = document.getElementById('hh-reg-locality') ? document.getElementById('hh-reg-locality').value.trim() : '';
+        var pin = document.getElementById('hh-reg-pin') ? document.getElementById('hh-reg-pin').value.trim() : '';
+
+        if (!name) {
+          showErr(hhRegError, 'Please enter the full name of the household head.');
+          return;
+        }
+        if (!phone) {
+          showErr(hhRegError, 'Please enter an emergency contact phone number.');
+          return;
+        }
+        if (!ward || parseInt(ward, 10) < 1 || parseInt(ward, 10) > 32) {
+          showErr(hhRegError, 'Please enter a valid Ward number between 1 and 32.');
+          return;
+        }
+        if (!pin || pin.length < 4) {
+          showErr(hhRegError, 'Please set a 4-digit PIN for account security.');
+          return;
+        }
+
+        var res = LifelineData.registerHousehold({
+          name: name,
+          phone: phone,
+          municipality: muni,
+          ward: ward,
+          locality: locality,
+          pin: pin
+        });
+
+        if (!res.success) {
+          showErr(hhRegError, res.error);
+          return;
+        }
+
+        // Successfully registered and authenticated -> Redirect to Dashboard
+        window.location.href = 'index.html';
+      }
+
+      if (btnHhReg) btnHhReg.addEventListener('click', doHhRegister);
+      var hhRegPin = document.getElementById('hh-reg-pin');
+      if (hhRegPin) {
+        hhRegPin.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') doHhRegister();
+        });
+      }
+
+      // Coordinator Login
+      var btnCoordLogin = document.getElementById('btn-coord-login');
+      var coordIdInput = document.getElementById('coord-login-id');
+      var coordPinInput = document.getElementById('coord-login-pin');
+      var coordError = document.getElementById('coord-login-error');
+
+      function doCoordLogin() {
+        if (coordError) coordError.style.display = 'none';
+        var id = coordIdInput ? coordIdInput.value.trim() : '';
+        var pin = coordPinInput ? coordPinInput.value.trim() : '';
+
+        if (!id) {
+          showErr(coordError, 'Please enter your Coordinator Officer ID (e.g. COORD-KMC).');
+          if (coordIdInput) coordIdInput.focus();
+          return;
+        }
+        if (!pin || pin.length < 4) {
+          showErr(coordError, 'Please enter your 4-digit service PIN.');
+          if (coordPinInput) coordPinInput.focus();
+          return;
+        }
+
+        var res = LifelineData.authenticate(id, pin);
+        if (!res.success) {
+          showErr(coordError, res.error);
+          return;
+        }
+
+        // Successfully authenticated -> Redirect to Dashboard
+        window.location.href = 'index.html';
+      }
+
+      if (btnCoordLogin) btnCoordLogin.addEventListener('click', doCoordLogin);
+      if (coordIdInput) {
+        coordIdInput.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') {
+            if (coordPinInput && !coordPinInput.value) coordPinInput.focus();
+            else doCoordLogin();
+          }
+        });
+      }
+      if (coordPinInput) {
+        coordPinInput.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') doCoordLogin();
+        });
+      }
+    })();
+  </script>
+</body>
+
+</html>
