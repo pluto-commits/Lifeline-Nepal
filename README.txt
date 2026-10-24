@@ -1,5 +1,6 @@
 
 Access Here: https://lifelinenepal.netlify.app/login.html
+Read Section 6 for details to launch and access the platform.
 
 ================================================================================
 LIFELINE NEPAL — EMERGENCY ESSENTIAL SUPPLIES COORDINATION PLATFORM
@@ -216,6 +217,8 @@ This scenario is 100% reproducible and can be restored anytime by clicking
 --------------------------------------------------------------------------------
 6. HOW TO LAUNCH AND OPERATE THE PLATFORM
 --------------------------------------------------------------------------------
+Note: Also Live at https://lifelinenepal.netlify.app/login.html
+
 A. LAUNCHING THE APP:
    Simply open `index.html` in any modern web browser:
      - Double click `index.html`, OR
@@ -223,14 +226,15 @@ A. LAUNCHING THE APP:
    No installation, no npm, no build tools, and no server required.
 
 B. EVALUATING THE HOUSEHOLD EXPERIENCE:
-   1. On the Welcome Gateway, click "Elena Shrestha" or "Sita Tamang".
+   1. On the Welcome Gateway, click "Register New Household" and register a new account.
    2. View private household dashboard, active requests, and tracking progress.
    3. Submit a new request using the intake form (select Municipality, Ward, Quantity).
    4. Note the generated Request ID and verify it appears in your private tracking queue.
    5. Log out via the header button to return to the Gateway.
 
 C. EVALUATING THE COORDINATOR EXPERIENCE:
-   1. On the Welcome Gateway, click "Saurabh Chaudhary (Kathmandu Lead)".
+   1. On the Welcome Gateway, enter Coordinator ID and PIN, for demonstration purpose, use 
+      Coordinator ID: "COORD-KMC" and PIN: "7411".
    2. Operations Command Overview: View Valley KPIs, interactive schematic map, 
       and intake queues.
    3. Household Requests: Filter by Ward, Urgency, Item, or Status.
@@ -243,45 +247,9 @@ C. EVALUATING THE COORDINATOR EXPERIENCE:
    6. Deliveries: Assign transport unit (e.g., Courier Team Echo) and confirm handover.
    7. Timeline: Audit every action taken in the session.
 
-D. RESETTING DEMO STATE:
-   Click "Reset Demo State" in the sidebar footer anytime to restore initial records.
 
 --------------------------------------------------------------------------------
-7. VERIFICATION TESTING (HOW TO RUN TESTS)
---------------------------------------------------------------------------------
-Lifeline provides two distinct test execution methods:
-
-METHOD 1: TERMINAL / CLI TEST SUITE (Node.js)
-  Run in terminal:
-    node test/test_lifeline.js
-
-  Output: Executes all 15 test suites and outputs green pass checkmarks:
-    ✓ [PASS] Test 1: Household & Coordinator Portals Separation
-    ✓ [PASS] Test 2: Household Privacy Isolation (No cross-household data exposure)
-    ✓ [PASS] Test 3: Household Submission and Status Tracking
-    ✓ [PASS] Test 4: Coordinator Review, Allocation, and Dispatch Workflow
-    ✓ [PASS] Test 5: Shared State Consistency Across Portals in Same Browser
-    ✓ [PASS] Test 6: Zero Negative Inventory & Over-Allocation Prevention
-    ✓ [PASS] Test 7: 100-Unit Stock vs 130-Unit Demand Shortfall (30 units unmet)
-    ✓ [PASS] Test 8: Dijkstra Shortest-Path Algorithm on Known Test Graph
-    ✓ [PASS] Test 9: Closed Road Segment Exclusion (Lazimpat Arterial Closed)
-    ✓ [PASS] Test 10: Unreachable Destination Graceful Failure & Warning
-    ✓ [PASS] Test 11: Route Explanation Consistency with Computed Metrics
-    ✓ [PASS] Test 12: Partial Fulfilment and Allocation Rescission / Stock Return
-    ✓ [PASS] Test 13: Data Persistence in Storage Across Refreshes
-    ✓ [PASS] Test 14: Reset Demo Restores Initial Kathmandu Valley Scenario
-    ✓ [PASS] Test 15: Responsive UI Support (Viewport Meta, Mobile Drawer & Breakpoints)
-  Exit code: 0 upon success.
-
-METHOD 2: IN-BROWSER TEST RUNNER
-  1. Open `index.html` in browser.
-  2. Log in as any Coordinator (e.g., Saurabh Chaudhary).
-  3. In the sidebar footer, click "Run Verification Tests".
-  4. An in-app modal opens displaying all 15 requirements tested deterministically 
-     against active browser state.
-
---------------------------------------------------------------------------------
-8. CURRENT LIMITATIONS & FUTURE IMPROVEMENTS
+7. CURRENT LIMITATIONS & FUTURE IMPROVEMENTS
 --------------------------------------------------------------------------------
 Current Prototype Scope & Limitations:
   1. Local Storage Sync: Synchronization between Household and Coordinator portals 
